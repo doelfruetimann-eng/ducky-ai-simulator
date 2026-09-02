@@ -1,0 +1,34 @@
+name: tip-test
+
+# Bedingung 2 aus docs/GIT.md fuer Auto-Merge: tests/tip_test.py laeuft in CI.
+# Geprueft wird gegen BASELINE im Skript, nicht auf "alle stehen" — D_full
+# faellt dort als erwartet drin. Wer eine Ente aus A-F loescht, bricht den
+# Lauf: collect() laedt alle sechs Bodies namentlich.
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+  workflow_dispatch:
+
+jobs:
+  tip-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: MuJoCo installieren
+        run: pip install 'mujoco==3.12.0'
+
+      - name: Kipp-Test A-F gegen BASELINE
+        run: python3 tests/tip_test.py --check
+
+      - name: Tabelle fuer docs/COMPARE.md
+        if: always()
+        run: python3 tests/tip_test.py --markdown >> "$GITHUB_STEP_SUMMARY"

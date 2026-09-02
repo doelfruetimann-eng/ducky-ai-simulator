@@ -38,16 +38,23 @@ BACK_N = 3.0
 TILT_LIMIT_DEG = 35.0
 HEIGHT_LIMIT_M = 0.06
 
-# Gemessener Stand, den --check verteidigt. D_full FAELLT hier absichtlich:
-# das ist das Ergebnis, kein Skriptfehler. Nicht schoenrechnen (CLAUDE.md).
+# Gemessener Stand, den --check verteidigt: kg, COM z, dann Ruhe/Seite/Hinten.
+# D_full FAELLT hier absichtlich und wiegt absichtlich 1.20 kg - das ist das
+# Ergebnis, kein Skriptfehler. Masse und COM stehen mit drin, damit eine still
+# geaenderte Masse auffaellt, auch wenn das Urteil gleich bleibt
+# ("Do not hide D_full mass", CLAUDE.md; "Masse nicht schoenrechnen",
+# docs/ENGINEERS.md). Wer eine Zahl bewusst aendert, aendert sie hier mit und
+# begruendet das im Commit.
 BASELINE = {
-    "A_stock": (True, True, True),
-    "B_desk": (True, True, True),
-    "C_opt": (True, True, True),
-    "D_full": (False, False, False),
-    "E_offboard": (True, True, True),
-    "F_lowballast": (True, True, True),
+    "A_stock": (0.80, 0.130, True, True, True),
+    "B_desk": (0.82, 0.135, True, True, True),
+    "C_opt": (0.94, 0.120, True, True, True),
+    "D_full": (1.20, 0.170, False, False, False),
+    "E_offboard": (0.80, 0.130, True, True, True),
+    "F_lowballast": (0.87, 0.110, True, True, True),
 }
+MASS_TOL_KG = 0.005
+COM_TOL_M = 0.002
 
 
 def body_id(model, name):
@@ -197,18 +204,30 @@ def sweep(scene_filter=None, duck_filter=None, lever=0.05, hold=20):
 def check(rows):
     """Vergleich gegen BASELINE. Gibt die Zahl der Abweichungen zurueck."""
     bad = 0
+    seen = set()
     for r in rows:
         want = BASELINE.get(r["duck"])
         if want is None:
             print(f"{r['duck']}: kein Baseline-Eintrag")
             bad += 1
             continue
-        got = (r["rest"], r["side"], r["back"])
-        if got != want:
-            names = ("Ruhe", "Seite", "Hinten")
-            diff = ", ".join(f"{n}: {w} -> {g}" for n, w, g in zip(names, want, got)
-                             if w != g)
-            print(f"{r['duck']}: {diff}")
+        seen.add(r["duck"])
+        want_mass, want_com, *want_flags = want
+        diffs = []
+        if abs(r["mass"] - want_mass) > MASS_TOL_KG:
+            diffs.append(f"Masse {want_mass:.2f} -> {r['mass']:.2f} kg")
+        if abs(r["com_z"] - want_com) > COM_TOL_M:
+            diffs.append(f"COM z {want_com:.3f} -> {r['com_z']:.3f} m")
+        got_flags = [r["rest"], r["side"], r["back"]]
+        for name, w, g in zip(("Ruhe", "Seite", "Hinten"), want_flags, got_flags):
+            if w != g:
+                diffs.append(f"{name}: {'OK' if w else 'FALL'} -> {'OK' if g else 'FALL'}")
+        if diffs:
+            print(f"{r['duck']}: " + ", ".join(diffs))
+            bad += 1
+    for duck in BASELINE:
+        if duck not in seen:
+            print(f"{duck}: fehlt im Lauf")
             bad += 1
     print("BASELINE gehalten." if not bad else f"{bad} Abweichung(en).")
     return bad

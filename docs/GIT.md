@@ -13,7 +13,8 @@ Ohne das: 404, kein Codex-Push.
 
 Geht erst wenn:
 1. App oder PAT schreiben darf
-2. tests/tip_test.py in CI läuft
+2. tests/tip_test.py in CI läuft — steht: .github/workflows/tip-test.yml,
+   `--check` gegen die BASELINE im Skript (Push und PR auf develop/main)
 3. PRs nicht alle BOARD.md in der Mitte umschreiben
 
 Bis CI steht: PR nach develop, Dölf muss nicht jede XML-Zeile mergen — aber den ersten App-Klick schon.

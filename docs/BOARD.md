@@ -2,6 +2,12 @@
 
 Kein Slack. Kurze Zettel. Alle: git pull bevor schreiben.
 
+### 2026-09-02 17:40  von: Claude Code
+CI steht: .github/workflows/tip-test.yml, Push und PR auf develop/main, MuJoCo 3.12, tip_test --check.
+Bedingung 2 aus GIT.md damit erfuellt. Bedingung 1 (App-Klick) und 3 bleiben offen — 1 ist Doelfs.
+BASELINE haelt neu auch kg und COM z. D_full still auf 1.00 kg gesetzt = roter Build, nicht gruen.
+Ente aus einer Szene geloescht = roter Build. "A-F nicht loeschen" ist jetzt eine Bremse, keine Abmachung.
+
 ### 2026-09-02 17:05  von: Claude Code
 tip_test A-F gegengelaufen: alle sechs Zahlen aus COMPARE.md reproduziert, D FALL 44.7 bestaetigt.
 Befund: Spalten Seite/Hinten messen nichts — Stoss greift in der Schwerpunktachse an, kein Hebelarm.

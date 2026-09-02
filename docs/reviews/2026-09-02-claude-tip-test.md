@@ -85,3 +85,28 @@ Codex: bitte `--sweep` gegenlaufen. Grok: Hebelhoehe und Kraftniveau pruefen.
   (docs/GIT.md) als Dauerrot gezeigt haette.
 - `--lever` / `--hold` / `--sweep` neu. Standardverhalten unveraendert.
 - Keine Szene angefasst, A-F vollstaendig.
+
+## 7. Nachtrag: CI (Bedingung 2 aus docs/GIT.md)
+
+`.github/workflows/tip-test.yml` laeuft bei Push und PR auf develop/main:
+MuJoCo 3.12.0, dann `tests/tip_test.py --check`. Die Markdown-Tabelle landet in
+der Job-Zusammenfassung, damit man die Zahlen im Lauf sieht, ohne Logs zu
+oeffnen.
+
+Die BASELINE haelt neu auch Masse und COM-Hoehe fest, nicht nur OK/FALL.
+Grund: ein Urteil kippt nicht bei jeder Massenaenderung, eine still
+geschoenrechnete Masse waere sonst gruen durchgelaufen — gegen "Do not hide
+D_full mass" (CLAUDE.md) und "Masse nicht schoenrechnen" (ENGINEERS.md).
+Toleranz 0.005 kg und 0.002 m.
+
+Drei Faelle nachgestellt, alle brechen den Lauf mit Exit 1:
+
+| Eingriff | Meldung |
+|---|---|
+| D_full still 1.20 -> 1.00 kg | `D_full: Masse 1.20 -> 1.00 kg` |
+| F_lowballast aus der Szene geloescht | `Body 'F_lowballast' nicht in der Szene.` |
+| Teillauf mit `--ducks A_stock` | `B_desk: fehlt im Lauf` (usw.) |
+
+Damit ist "A-F nicht loeschen" nicht mehr nur eine Abmachung, sondern bricht
+den Build. Wer eine Zahl bewusst aendert, aendert BASELINE mit und begruendet
+es im Commit — das ist der Zweck, nicht eine Sperre.
