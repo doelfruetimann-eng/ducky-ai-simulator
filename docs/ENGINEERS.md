@@ -1,16 +1,21 @@
-# Engineer-Vertrag (Stand 2026-09-02)
+# Engineer-Vertrag (Stand 2026-09-02, geschaerft)
 
 Quelle der Wahrheit: Git doelfruetimann-eng/ducky-ai-simulator.
-Entscheidet: Dölf, nur anhand von Messergebnissen.
+Entscheidet: Doelf anhand von Messergebnissen.
 
-## Rollen
+Alle Engines duerfen Dateien anlegen, MuJoCo laufen lassen und Tests schreiben.
+Getrennt wird nach Verantwortung und Gegenkontrolle, nicht nach Schreibrecht.
 
-- Claude Code + Opus 5: regulärer dritter Engineer (Checkout, Tests, Commits)
-- Fable 5.1: Architektur-Review und harte Sonderaufgaben, kein Alltag
-- Grok: unabhängige Gegenvarianten unter models/counter/, A-D nicht überschreiben
-- Codex: integrieren, simulieren, vergleichen (docs/COMPARE.md, tests/)
-- Dölf: Merge / Kauf / Training nach Zahlen
+## Verantwortung
 
-## Messregel
+- Grok: Gegenvarianten, Physik-Skepsis, CH-Kosten, kippt/lohnt sich nicht. Review: Codex + Fable 5.1
+- Codex/ChatGPT: Integration, Vergleich, Test-Harness. Review: Grok + Claude Code
+- Claude Code + Opus 5: Alltag im Checkout, Refactor, wiederholbare Skripte. Review: Codex
+- Fable 5.1: Architektur-Review, blockierende Entscheidungen. Doelf liest das Review
+- Doelf: Merge, Kauf, Training nach der Tabelle
 
-Kipp-Zahlen nur aus tests/tip_test.py oder microduck_rl.
+## Kontrolle
+
+Wer eine Variante vorschlaegt, schreibt nicht allein 'bestanden'.
+Zweite Engine laesst tip_test.py nochmals laufen.
+Keine Pollen-STLs. Masse nicht schoenrechnen. Mini = Viewer, 4060/HF = Training.
