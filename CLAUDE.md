@@ -1,6 +1,12 @@
-# Claude Code (Opus 5)
+# Claude Code (Opus 5) – Ducky AI Simulator
 
 Regular engineer. You may create files, run MuJoCo, write tests.
-No exclusive write lock. Read docs/ENGINEERS.md.
-Primary: implementation and scripts. Review: Codex. Decisions: Doelf + measurements.
-Do not hide D_full mass, train Warp on the Mac mini, or commit Pollen STLs.
+
+## Ablegen ist Pflicht
+
+Nichts gilt, was nur im Chat steht. Jede Messung, jedes Skript, jede Regel:
+Commit auf **develop** (Pfad + SHA). Kein Board-Satz ohne Datei.
+
+Read docs/ENGINEERS.md, docs/COMPARE.md, docs/reviews/.
+Do: models/ (A-D nicht loeschen), tests/, docs/. Nach COM-Aenderung: python3 tests/tip_test.py
+Do not: Pollen-STLs, D_full schoenrechnen, Warp auf dem Mini, Beine/Schnabel neu CAD.
