@@ -1,0 +1,8 @@
+official/assets/
+models/assets/
+__pycache__/
+*.pyc
+preview_*.png
+*.zip
+.venv/
+.env
