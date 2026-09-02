@@ -6,7 +6,9 @@
   python3 tests/tip_test.py --check         # gegen BASELINE, Exit 1 bei Abweichung
   python3 tests/tip_test.py --scene models/scene_lineup.xml
   python3 tests/tip_test.py --ducks D_full F_lowballast
-  python3 tests/tip_test.py --lever 0.05 --hold 20   # Stoss MIT Hebelarm
+  python3 tests/tip_test.py --lever            # Stoss MIT Hebelarm (0.05 m, 0.10 s)
+  python3 tests/tip_test.py --lever --sweep   # Kippschwelle je Ente
+  python3 tests/tip_test.py --lever 0.08 --hold 40   # eigene Hoehe und Dauer
 
 Der Standard-Stoss greift im Koerperursprung an, also praktisch in der
 Schwerpunktachse: er schiebt, er kippt nicht (siehe
@@ -20,6 +22,14 @@ import sys
 
 import mujoco
 import numpy as np
+
+# Ohne das wirft "tip_test.py --sweep | head" einen Traceback statt einfach
+# aufzuhoeren. Unter Windows gibt es SIGPIPE nicht.
+try:
+    import signal
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+except (ImportError, AttributeError, ValueError):
+    pass
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -37,6 +47,10 @@ SIDE_N = 2.5
 BACK_N = 3.0
 TILT_LIMIT_DEG = 35.0
 HEIGHT_LIMIT_M = 0.06
+# Hebelhoehe und Stossdauer fuer --lever/--sweep. Gesetzt, nicht hergeleitet -
+# offene Frage an Grok, siehe docs/reviews/2026-09-02-claude-tip-test.md.
+LEVER_DEFAULT = 0.05
+HOLD_DEFAULT = 20
 
 # Gemessener Stand, den --check verteidigt: kg, COM z, dann Ruhe/Seite/Hinten.
 # D_full FAELLT hier absichtlich und wiegt absichtlich 1.20 kg - das ist das
@@ -175,7 +189,8 @@ def print_markdown(rows):
 SWEEP_N = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.0, 10.0, 15.0]
 
 
-def sweep(scene_filter=None, duck_filter=None, lever=0.05, hold=20):
+def sweep(scene_filter=None, duck_filter=None, lever=LEVER_DEFAULT,
+          hold=HOLD_DEFAULT):
     """Kleinste Kraft, bei der die Ente kippt. Diskriminiert, anders als ein
     fester Stoss, bei dem entweder alle stehen oder alle liegen."""
     print(f"Kippschwelle, Hebel {lever:.3f} m, Stoss {hold * 0.005:.2f} s")
@@ -238,9 +253,16 @@ def main(argv=None):
     p.add_argument("--scene", type=Path, help="nur diese Szene messen")
     p.add_argument("--ducks", nargs="+", help="nur diese Bodies messen")
     p.add_argument("--steps", type=int, default=SETTLE_STEPS, help="Schritte je Fall")
-    p.add_argument("--lever", type=float, default=0.0,
-                   help="Stoss so viele Meter ueber dem Koerperursprung")
-    p.add_argument("--hold", type=int, default=1, help="Schritte, die der Stoss anliegt")
+    # nargs="?" : "--lever" ohne Zahl ist die naheliegende Schreibweise und
+    # soll nicht mit einer Usage-Meldung enden. Ohne Wert gilt LEVER_DEFAULT,
+    # ohne die Angabe ueberhaupt bleibt es beim Stoss im Koerperursprung.
+    p.add_argument("--lever", type=float, nargs="?", const=LEVER_DEFAULT,
+                   default=0.0, metavar="METER",
+                   help=f"Stoss so viele Meter ueber dem Koerperursprung "
+                        f"(ohne Zahl: {LEVER_DEFAULT})")
+    p.add_argument("--hold", type=int, nargs="?", const=HOLD_DEFAULT, default=1,
+                   metavar="SCHRITTE",
+                   help=f"Schritte, die der Stoss anliegt (ohne Zahl: {HOLD_DEFAULT})")
     p.add_argument("--markdown", action="store_true", help="Tabelle fuer COMPARE.md")
     p.add_argument("--check", action="store_true", help="gegen BASELINE pruefen (CI)")
     p.add_argument("--sweep", action="store_true",
@@ -248,8 +270,8 @@ def main(argv=None):
     args = p.parse_args(argv)
 
     if args.sweep:
-        sweep(args.scene, args.ducks, args.lever or 0.05,
-              args.hold if args.hold != 1 else 20)
+        sweep(args.scene, args.ducks, args.lever or LEVER_DEFAULT,
+              args.hold if args.hold != 1 else HOLD_DEFAULT)
         return 0
 
     rows = collect(args.scene, args.ducks, args.steps, args.lever, args.hold)
