@@ -1,0 +1,70 @@
+<mujoco model="ducky_lineup">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.005" gravity="0 0 -9.81"/>
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.35 0.35 0.35"/>
+    <global azimuth="140" elevation="-20"/>
+  </visual>
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.50 0.66 0.80" rgb2="0.08 0.10 0.12" width="256" height="512"/>
+    <texture type="2d" name="grid" builtin="checker" rgb1="0.82 0.78 0.70" rgb2="0.70 0.66 0.58" width="256" height="256"/>
+    <material name="grid" texture="grid" texrepeat="8 8" texuniform="true"/>
+  </asset>
+  <worldbody>
+    <light pos="0.2 -0.6 1.6" dir="0 0.2 -1"/>
+    <camera name="overview" pos="-0.15 -1.15 0.55" xyaxes="1 0.05 0 -0.05 0.25 1"/>
+    <geom name="floor" type="plane" size="0 0 0.05" material="grid"/>
+    <body name="A_stock" pos="-0.45 0 0.13">
+      <freejoint/>
+      <inertial pos="-0.01 0 0.00" mass="0.80" diaginertia="0.0009 0.0010 0.0008"/>
+      <geom type="ellipsoid" size="0.055 0.038 0.045" rgba="0.93 0.84 0.68 1"/>
+      <geom type="ellipsoid" size="0.028 0.022 0.024" pos="0.05 0 0.05" rgba="0.93 0.84 0.68 1"/>
+      <geom type="ellipsoid" size="0.022 0.012 0.009" pos="0.075 0 0.04" rgba="0.95 0.45 0.12 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 -0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+    </body>
+    <body name="B_desk" pos="-0.15 0 0.13">
+      <freejoint/>
+      <inertial pos="0.00 0 0.005" mass="0.82" diaginertia="0.00095 0.00105 0.00085"/>
+      <geom type="ellipsoid" size="0.055 0.038 0.045" rgba="0.88 0.90 0.94 1"/>
+      <geom type="ellipsoid" size="0.028 0.022 0.024" pos="0.05 0 0.05" rgba="0.88 0.90 0.94 1"/>
+      <geom type="ellipsoid" size="0.022 0.012 0.009" pos="0.075 0 0.04" rgba="0.95 0.45 0.12 1"/>
+      <geom type="box" size="0.003 0.026 0.018" pos="0.048 0 0.01" rgba="0.08 0.08 0.09 1"/>
+      <geom type="box" size="0.0015 0.023 0.015" pos="0.052 0 0.01" rgba="0.15 0.55 0.85 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 -0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+    </body>
+    <body name="C_opt" pos="0.15 0 0.13">
+      <freejoint/>
+      <inertial pos="-0.015 0 -0.01" mass="0.94" diaginertia="0.00115 0.00125 0.00100"/>
+      <geom type="ellipsoid" size="0.055 0.038 0.045" rgba="0.55 0.62 0.70 1"/>
+      <geom type="ellipsoid" size="0.028 0.022 0.024" pos="0.05 0 0.05" rgba="0.55 0.62 0.70 1"/>
+      <geom type="ellipsoid" size="0.022 0.012 0.009" pos="0.075 0 0.04" rgba="0.95 0.45 0.12 1"/>
+      <geom type="box" size="0.035 0.023 0.008" pos="-0.055 0 0.000" rgba="0.12 0.14 0.16 1"/>
+      <geom type="box" size="0.003 0.026 0.018" pos="0.048 0 0.006" rgba="0.08 0.08 0.09 1"/>
+      <geom type="box" size="0.020 0.016 0.010" pos="-0.02 0 -0.040" rgba="0.15 0.35 0.22 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 -0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+    </body>
+    <body name="D_full" pos="0.45 0 0.13">
+      <freejoint/>
+      <inertial pos="-0.02 0 0.04" mass="1.20" diaginertia="0.0018 0.0020 0.0015"/>
+      <geom type="ellipsoid" size="0.055 0.038 0.045" rgba="0.22 0.22 0.24 1"/>
+      <geom type="ellipsoid" size="0.028 0.022 0.024" pos="0.05 0 0.05" rgba="0.22 0.22 0.24 1"/>
+      <geom type="ellipsoid" size="0.022 0.012 0.009" pos="0.075 0 0.04" rgba="0.95 0.45 0.12 1"/>
+      <geom type="box" size="0.036 0.023 0.012" pos="-0.062 0 0.030" rgba="0.10 0.12 0.14 1"/>
+      <geom type="box" size="0.004 0.032 0.022" pos="0.050 0 0.018" rgba="0.15 0.55 0.85 1"/>
+      <geom type="cylinder" size="0.011 0.008" pos="0.04 0 0.085" rgba="0.12 0.12 0.13 1"/>
+      <geom type="cylinder" size="0.003 0.04" pos="0.00 0 0.12" rgba="0.4 0.4 0.42 1"/>
+      <geom type="box" size="0.012 0.020 0.038" pos="0.00 0 0.18" rgba="0.75 0.15 0.15 0.85"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+      <geom type="box" size="0.028 0.014 0.006" pos="0.01 -0.03 -0.055" rgba="0.25 0.22 0.18 1"/>
+    </body>
+    <body name="station_red" pos="0.15 0.35 0">
+      <geom type="box" size="0.07 0.05 0.035" pos="0 0 0.035" rgba="0.86 0.22 0.18 1"/>
+    </body>
+    <body name="station_blue" pos="-0.15 0.35 0">
+      <geom type="box" size="0.07 0.05 0.035" pos="0 0 0.035" rgba="0.18 0.42 0.82 1"/>
+    </body>
+  </worldbody>
+</mujoco>
