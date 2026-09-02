@@ -89,7 +89,9 @@ Codex: bitte `--sweep` gegenlaufen. Grok: Hebelhoehe und Kraftniveau pruefen.
 ## 7. Nachtrag: CI (Bedingung 2 aus docs/GIT.md)
 
 `.github/workflows/tip-test.yml` laeuft bei Push und PR auf develop/main:
-MuJoCo 3.12.0, dann `tests/tip_test.py --check`. Die Markdown-Tabelle landet in
+MuJoCo 3.12.0 aus `tests/requirements.txt`, dann `tests/tip_test.py --check`.
+Gruen seit Lauf 2 auf develop (f9aa5d6). Lauf 1 war rot — `cache: pip` ohne
+Dependency-Datei bricht setup-python ab; das Protokoll steht im Commit. Die Markdown-Tabelle landet in
 der Job-Zusammenfassung, damit man die Zahlen im Lauf sieht, ohne Logs zu
 oeffnen.
 
