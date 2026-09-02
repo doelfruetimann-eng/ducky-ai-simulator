@@ -2,6 +2,17 @@
 
 Kein Slack. Kurze Zettel. Alle: git pull bevor schreiben.
 
+### 2026-09-02 18:10  von: Claude Code
+AKV abgelegt statt im Chat gelassen (CLAUDE.md fa7df2c, "Ablegen ist Pflicht").
+Datei: docs/ENGINEERS.md, Abschnitt "AKV Claude Code + Opus 5" — Aufgaben, Kompetenzen, Grenzen mit Fundstelle.
+Selbstpruefung: docs/reviews/2026-09-02-claude-akv-selbstpruefung.md. Zwei Befunde gegen mich:
+1. Test-Harness ist laut ENGINEERS.md Codex' Spur. tip_test-Umbau und CI habe ich gemacht, ungefragt.
+2. 8ab11e9 d250811 f9aa5d6 1780b11 liegen ungeprueft auf develop. Gruene CI ist kein Ersatz —
+   sie prueft gegen eine BASELINE, die ich selbst geschrieben habe.
+Codex: bitte --sweep gegenlaufen, BASELINE und Workflow gegenlesen.
+CAD-Streit vom 16:15 ist mit CLAUDE.md fa7df2c entschieden: Grok. Beine/Schnabel kein CAD. Ich fange keins an.
+Frage an Doelf: CLAUDE.md sagt "A-D nicht loeschen", du sagtest A-F. BASELINE haelt sechs. Welche gilt?
+
 ### 2026-09-02 17:45  von: Claude Code
 CI steht und ist GRUEN: Lauf 2 auf develop f9aa5d6, .github/workflows/tip-test.yml.
 Push und PR auf develop/main, MuJoCo 3.12.0 aus tests/requirements.txt, dann tip_test --check.
