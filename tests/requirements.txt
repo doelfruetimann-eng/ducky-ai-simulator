@@ -1,0 +1,3 @@
+# Eine Quelle fuer die MuJoCo-Version: CI und Mac mini ziehen dieselbe.
+# docs/WORKFLOW.md nennt 3.12, docs/TEST_RESULTS.md ist damit gemessen.
+mujoco==3.12.0
