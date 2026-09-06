@@ -1,0 +1,40 @@
+name: tip-test
+
+# Bedingung 2 aus docs/GIT.md fuer Auto-Merge: tests/tip_test.py laeuft in CI.
+# Geprueft wird gegen BASELINE im Skript, nicht auf "alle stehen" — D_full
+# faellt dort als erwartet drin. Wer eine Ente aus A-F loescht oder eine Masse
+# still aendert, bricht den Lauf.
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+  workflow_dispatch:
+
+jobs:
+  tip-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: tests/requirements.txt
+
+      - name: MuJoCo installieren
+        run: pip install -r tests/requirements.txt
+
+      # Tabelle und Pruefung im selben Schritt: die Zusammenfassung soll nur
+      # entstehen, wenn wirklich gemessen wurde. Ein "if: always()" davor hat
+      # im ersten Lauf ohne MuJoCo gedruckt und den Job doppelt rot gemacht.
+      - name: Kipp-Test A-F gegen BASELINE
+        run: |
+          {
+            echo '### Kipp-Test A-F'
+            echo
+            python3 tests/tip_test.py --markdown
+          } >> "$GITHUB_STEP_SUMMARY"
+          python3 tests/tip_test.py --check

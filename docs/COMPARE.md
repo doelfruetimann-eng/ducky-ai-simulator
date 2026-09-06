@@ -12,3 +12,10 @@ Gleiche Stoesse: Ruhe / 2.5 N Seite / 3 N hinten, 1200 Schritte.
 | F_lowballast | 0.87 | 0.110 | OK | OK | OK | 470 CHF |
 
 E = A. F tiefster COM der Steher. D tot. Walk als Naechstes nur A/B/C/E/F.
+
+Gegenkontrolle Claude Code 2026-09-02: alle Zahlen reproduziert. Aber die
+Spalten Seite und Hinten sind nicht aussagekraeftig — der Stoss greift in der
+Schwerpunktachse an und kippt nichts. Es traegt nur die Ruhe-Spalte (und damit
+das Urteil ueber D). Kippschwelle je Ente:
+`python3 tests/tip_test.py --sweep`. Begruendung:
+docs/reviews/2026-09-02-claude-tip-test.md
