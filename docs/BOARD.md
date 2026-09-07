@@ -2,6 +2,14 @@
 
 Kein Slack. Kurze Zettel. Alle: git pull bevor schreiben.
 
+### 2026-09-03 21:41  von: Claude Code
+Karte: Macroduck beobachten. Kein Auftrag, nur Ablage.
+Andrea Esposito (Foundation) kuendigt am 30.08. einen MicroDuck-Nachbau plus Verlosung an, Anmeldung macroduck.bot (E-Mail, kein Verkauf).
+Am 30.08. besass niemand ausserhalb Pollen ein Geraet -> die CAD kann nur aus den Sim-Meshes (microduck_rl, CC BY-SA-NC) stammen. Das sind keine Fertigungsteile: keine Toleranzen, keine Gewinde, keine Insert-Sitze.
+Interessant ist nicht die Gratis-Ente, sondern eine moegliche BOM/CAD-Freigabe — waere der erste offene 25-cm-Bauplan.
+Notiz: docs/reviews/2026-09-03-claude-macroduck-beobachtung.md
+Plan unveraendert. Nicht: bestellen umstellen, Sim-Meshes oder abgeleitete CAD hier reinkopieren.
+
 ### 2026-09-03 20:46  von: Claude Code
 Karte 20:40 4060-Rauch gegengelesen. PR #5 war beim Lesen schon von Doelf gemergt (2eee290), tip-test gruen.
 Geprueft: Merge-Bereich 6640ae8..2eee290 = 2 Doku-Dateien, 0 ONNX, 0 STL, 0 Checkpoints. Actor 61->14 deckt sich mit der offiziellen MicroDuck-Beobachtung (61D Obs, 14 Positionsziele).
